@@ -91,6 +91,7 @@ export type SliderProps = {
   animateTransitions?: boolean;
   animationType?: 'spring' | 'timing';
   orientation?: 'horizontal' | 'vertical';
+  inverted?: boolean;
   animationConfig?:
     | Animated.TimingAnimationConfig
     | Animated.SpringAnimationConfig;
@@ -107,6 +108,7 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
   const trackSizeValue = useRef(trackSize);
   const thumbSizeValue = useRef(thumbSize);
   const isVertical = useRef(props.orientation === 'vertical');
+  const isInverted = useRef(props.inverted);
   const [value] = useState(
     new Animated.Value(
       getBoundedValue(
@@ -328,9 +330,10 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
   };
 
   const getValue = (gestureState: PanResponderGestureState) => {
+    const movement = (isVertical.current ? gestureState.dy : gestureState.dx);
     const location =
       _previousLeft.current +
-      (isVertical.current ? gestureState.dy : gestureState.dx);
+      (isInverted.current ? -movement : movement);
     return getValueForTouch(location);
   };
 
@@ -407,7 +410,7 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
     if (isVertical.current) {
       minimumTrackStyle.height = Animated.add(
         thumbStart,
-        thumbSizeValue.current.height / 2
+        thumbSizeValue.current.width / 2
       );
       minimumTrackStyle.marginLeft = trackSize.width * TRACK_STYLE;
     } else {
@@ -562,6 +565,7 @@ Slider.defaultProps = {
   debugTouchArea: false,
   animationType: 'timing',
   orientation: 'horizontal',
+  inverted: false,
 };
 
 const styles = StyleSheet.create({
