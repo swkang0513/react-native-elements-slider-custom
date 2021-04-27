@@ -256,7 +256,7 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
     if (!props.allowTouchTrack && !TRACK_STYLE) {
       return thumbHitTest(e);
     }
-    if (!trackStyle) {
+    if (!TRACK_STYLE) {
       setCurrentValue(getOnTouchValue(e));
     }
     fireChangeEvent('onValueChange');
@@ -330,10 +330,9 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
   };
 
   const getValue = (gestureState: PanResponderGestureState) => {
-    const movement = (isVertical.current ? gestureState.dy : gestureState.dx);
+    const movement = isVertical.current ? gestureState.dy : gestureState.dx;
     const location =
-      _previousLeft.current +
-      (isInverted.current ? -movement : movement);
+      _previousLeft.current + (isInverted.current ? -movement : movement);
     return getValueForTouch(location);
   };
 
