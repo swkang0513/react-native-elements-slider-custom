@@ -256,9 +256,7 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
     if (!props.allowTouchTrack && !TRACK_STYLE) {
       return thumbHitTest(e);
     }
-    if (!TRACK_STYLE) {
-      setCurrentValue(getOnTouchValue(e));
-    }
+    setCurrentValue(getOnTouchValue(e));
     fireChangeEvent('onValueChange');
     return true;
   };
