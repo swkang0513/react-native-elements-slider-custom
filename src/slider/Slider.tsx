@@ -172,7 +172,7 @@ const Slider: RneFunctionComponent<SliderProps> = (props) => {
         props.maximumValue || 1,
         props.minimumValue || 0
       );
-      if (prevPropValue.current !== newValue) {
+      if (currentPropValue.current !== newValue) {
         if (props.animateTransitions) {
           setCurrentValueAnimated(new Animated.Value(newValue));
         } else {
